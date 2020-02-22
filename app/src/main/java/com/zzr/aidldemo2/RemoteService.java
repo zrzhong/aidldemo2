@@ -2,6 +2,7 @@ package com.zzr.aidldemo2;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteCallbackList;
@@ -61,7 +62,11 @@ public class RemoteService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-
+        //权限验证
+        int check = checkCallingOrSelfPermission("com.zzr.aidldemo2.ACCESS_BOOK_SERVICE");
+        if (check == PackageManager.PERMISSION_DENIED){
+            return null;
+        }
         return myBinder;
     }
 

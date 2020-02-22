@@ -38,10 +38,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             Log.i(TAG, "onServiceConnected: 连接成功");
+            if (service == null) {
+                Log.i(TAG, "没有权限");
+                return;
+            }
             bookManager = IBookManager.Stub.asInterface(service);
             try {
                 //设置死亡代理
-//                service.linkToDeath(deathRecipient, 0);
+                service.linkToDeath(deathRecipient, 0);
                 List<Book> bookList = bookManager.getBookList();
                 Log.i(TAG, "book size: " + bookList.size() + ",list type: " + bookList.getClass().getCanonicalName());
                 Book book = new Book(4, "python");
